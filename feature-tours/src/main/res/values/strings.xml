@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">feature-tours</string>
+    <string name="apply_button_text">Применить</string>
+    <string name="no_tour_selected_message">Пожалуйста, выберите тур</string>
+    <string name="error_text">Произошла ошибка</string>
+    <string name="refresh_button_text">Обновить</string>
+    <string name="select_flight_adapter_price_text">%1$s р</string>
+
+    <plurals name="possibleFlights">
+        <item quantity="zero">Варианты перелета отсутствуют</item>
+        <item quantity="one">%1$d вариант перелета</item>
+        <item quantity="two">%1$d варианта перелета</item>
+        <item quantity="few">%1$d варианта перелета</item>
+        <item quantity="many">%1$d вариантов перелета</item>
+        <item quantity="other">%1$d вариантов перелета</item>
+    </plurals>
+
+    <plurals name="minimalPrice">
+        <item quantity="zero">0 р</item>
+        <item quantity="one">%1$d р</item>
+        <item quantity="two">от %1$d р</item>
+        <item quantity="few">от %1$d р</item>
+        <item quantity="many">от %1$d р</item>
+        <item quantity="other">от %1$d р</item>
+    </plurals>
+</resources>
