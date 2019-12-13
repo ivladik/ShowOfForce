@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.core.presentation.ui.custom_view.LoadingView
 import com.example.feature_tours.R
 import com.example.feature_tours.di.ToursSubcomponent
 import com.example.feature_tours.di.screen.show_tours.ShowToursSubcomponent
@@ -127,12 +128,12 @@ class ShowToursFragment : MvpAppCompatFragment(), ShowToursAdapter.OnTourClickLi
 
     override fun showProgress() {
         recyclerView.visibility = View.GONE
-        loadingView.visibility = View.VISIBLE
+        loadingView.setState(LoadingView.State.LOADING)
         errorContainer.visibility = View.GONE
     }
 
     override fun hideProgress() {
-        loadingView.visibility = View.GONE
+        loadingView.setState(LoadingView.State.DONE)
     }
 
     override fun onTourClick(tour: Tour) {
