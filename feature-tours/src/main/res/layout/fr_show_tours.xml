@@ -24,28 +24,5 @@ tools:context="com.example.showofforce.presentation.ui.activity.MainActivity">
         android:layout_height="wrap_content"
         android:layout_gravity="center"/>
 
-    <LinearLayout
-        android:id="@+id/errorContainer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:orientation="vertical"
-        android:visibility="gone">
-
-        <TextView
-            android:id="@+id/errorText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/error_text" />
-
-        <Button
-            android:id="@+id/refreshButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/refresh_button_text" />
-
-    </LinearLayout>
-
 </FrameLayout>
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

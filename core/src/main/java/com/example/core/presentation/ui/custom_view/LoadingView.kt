@@ -16,6 +16,8 @@ class LoadingView @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : LinearLayout(context, attrs, defStyleAttr) {
 
+    private var refreshButtonClickAction: (() -> Unit)? = null
+
     init {
         View.inflate(context, R.layout.v_loading, this)
         orientation = VERTICAL
@@ -27,16 +29,29 @@ class LoadingView @JvmOverloads constructor(
             State.LOADING -> {
                 progress.visible()
                 status.visible()
+                errorContainer.gone()
+                refreshButton.setOnClickListener(null)
             }
             State.DONE -> {
                 progress.gone()
                 status.gone()
             }
+            State.ERROR -> {
+                errorContainer.visible()
+                refreshButton.setOnClickListener {
+                    refreshButtonClickAction?.invoke()
+                }
+            }
         }
+    }
+
+    fun setRefreshButtonClickAction(action: () -> Unit) {
+        refreshButtonClickAction = action
     }
 
     enum class State {
         LOADING,
-        DONE
+        DONE,
+        ERROR
     }
 }

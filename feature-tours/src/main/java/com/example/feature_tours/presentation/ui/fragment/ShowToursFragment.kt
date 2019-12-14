@@ -113,15 +113,14 @@ class ShowToursFragment : MvpAppCompatFragment(), ShowToursAdapter.OnTourClickLi
     override fun showTours(tours: List<Tour>) {
         showRefresh()
         recyclerView.visibility = View.VISIBLE
-        errorContainer.visibility = View.GONE
         adapter.updateTours(tours)
     }
 
     override fun showError() {
         hideRefresh()
         recyclerView.visibility = View.GONE
-        errorContainer.visibility = View.VISIBLE
-        refreshButton.setOnClickListener {
+        loadingView.setState(LoadingView.State.ERROR)
+        loadingView.setRefreshButtonClickAction {
             presenter.loadTours()
         }
     }
@@ -129,7 +128,6 @@ class ShowToursFragment : MvpAppCompatFragment(), ShowToursAdapter.OnTourClickLi
     override fun showProgress() {
         recyclerView.visibility = View.GONE
         loadingView.setState(LoadingView.State.LOADING)
-        errorContainer.visibility = View.GONE
     }
 
     override fun hideProgress() {
