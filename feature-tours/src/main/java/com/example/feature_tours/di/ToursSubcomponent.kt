@@ -6,7 +6,7 @@ import com.example.feature_tours.start.IToursStarter
 import dagger.Subcomponent
 
 @ToursScope
-@Subcomponent(modules = [ToursModule::class])
+@Subcomponent(modules = [ToursModule::class, ViewModelFactoryModule::class])
 abstract class ToursSubcomponent {
 
     abstract fun starter(): IToursStarter

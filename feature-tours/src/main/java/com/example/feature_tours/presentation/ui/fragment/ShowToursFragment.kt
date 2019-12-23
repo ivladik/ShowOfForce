@@ -8,25 +8,27 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.core.presentation.ui.custom_view.LoadingView
+import com.example.core.presentation.model.State
 import com.example.feature_tours.R
 import com.example.feature_tours.di.ToursSubcomponent
 import com.example.feature_tours.di.screen.show_tours.ShowToursSubcomponent
 import com.example.feature_tours.domain.model.Tour
-import com.example.feature_tours.presentation.presenter.ShowToursPresenter
+import com.example.feature_tours.extension.injectViewModel
+import com.example.feature_tours.presentation.model.Response
 import com.example.feature_tours.presentation.ui.adapter.ShowToursAdapter
 import com.example.feature_tours.presentation.ui.dialog.SelectFlightDialogFragment
 import com.example.feature_tours.presentation.ui.view.ShowToursView
+import com.example.feature_tours.presentation.view_model.ShowToursViewModel
 import kotlinx.android.synthetic.main.fr_show_tours.*
-import moxy.MvpAppCompatFragment
-import moxy.presenter.InjectPresenter
-import moxy.presenter.ProvidePresenter
 import timber.log.Timber
 import java.lang.IllegalStateException
 import javax.inject.Inject
 
-class ShowToursFragment : MvpAppCompatFragment(), ShowToursAdapter.OnTourClickListener,
+class ShowToursFragment : Fragment(), ShowToursAdapter.OnTourClickListener,
     ShowToursView {
 
     companion object {
@@ -46,16 +48,9 @@ class ShowToursFragment : MvpAppCompatFragment(), ShowToursAdapter.OnTourClickLi
         )
     }
 
-    // TODO: lsv
-
     @Inject
-    @InjectPresenter
-    lateinit var presenter: ShowToursPresenter
-
-    @ProvidePresenter
-    fun providePresenter(): ShowToursPresenter {
-        return presenter
-    }
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+    private lateinit var viewModel: ShowToursViewModel
 
     override fun onAttach(context: Context) {
         ShowToursSubcomponent.create(
@@ -79,6 +74,29 @@ class ShowToursFragment : MvpAppCompatFragment(), ShowToursAdapter.OnTourClickLi
         super.onViewCreated(view, savedInstanceState)
         setRecyclerView()
         hideRefresh()
+        viewModel = injectViewModel(viewModelFactory)
+        viewModel.loadTours()
+        viewModel.responseLiveData.observe(
+            this, Observer {
+                processResponse(it)
+            }
+        )
+    }
+
+    private fun processResponse(response: Response<List<Tour>>) {
+        when (response.state) {
+            State.LOADING -> {
+                showProgress()
+            }
+            State.DONE -> {
+                hideProgress()
+                showTours(response.data ?: listOf()) // TODO: обработка кейса с пустым списком - заглушка, cherry-pick в master
+            }
+            State.ERROR -> {
+                hideProgress()
+                showError()
+            }
+        }
     }
 
     override fun onDetach() {
@@ -91,7 +109,7 @@ class ShowToursFragment : MvpAppCompatFragment(), ShowToursAdapter.OnTourClickLi
         swipeRefreshLayout.apply {
             isRefreshing = false
             setOnRefreshListener {
-                presenter.loadToursFromRefresh()
+                viewModel.loadToursFromRefresh()
             }
             isEnabled = true
         }
@@ -119,24 +137,25 @@ class ShowToursFragment : MvpAppCompatFragment(), ShowToursAdapter.OnTourClickLi
     override fun showError() {
         hideRefresh()
         recyclerView.visibility = View.GONE
-        loadingView.setState(LoadingView.State.ERROR)
+        loadingView.setState(State.ERROR)
         loadingView.setRefreshButtonClickAction {
-            presenter.loadTours()
+            viewModel.loadTours()
         }
     }
 
     override fun showProgress() {
         recyclerView.visibility = View.GONE
-        loadingView.setState(LoadingView.State.LOADING)
+        loadingView.setState(State.LOADING)
     }
 
     override fun hideProgress() {
-        loadingView.setState(LoadingView.State.DONE)
+        loadingView.setState(State.DONE)
     }
 
     override fun onTourClick(tour: Tour) {
         val fragment = SelectFlightDialogFragment.newInstance(tour.id)
-        fragment.setTargetFragment(this,
+        fragment.setTargetFragment(
+            this,
             SHOW_TOURS_REQUEST_CODE
         )
         fragment.show(requireFragmentManager(), SelectFlightDialogFragment.TAG)
