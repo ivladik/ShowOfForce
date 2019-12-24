@@ -6,10 +6,10 @@ import moxy.viewstate.strategy.AddToEndSingleStrategy
 import moxy.viewstate.strategy.SkipStrategy
 import moxy.viewstate.strategy.StateStrategyType
 
-interface ShowToursView : MvpView {
+interface ShowToursView : MvpView { // TODO: delete
 
     @StateStrategyType(AddToEndSingleStrategy::class)
-    fun showTours(tours: List<Tour>)
+    fun showTours(tours: List<Tour>?)
 
     @StateStrategyType(AddToEndSingleStrategy::class)
     fun showError()

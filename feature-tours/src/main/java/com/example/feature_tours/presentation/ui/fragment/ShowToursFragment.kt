@@ -12,6 +12,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.core.extension.gone
+import com.example.core.extension.visible
 import com.example.core.presentation.model.State
 import com.example.feature_tours.R
 import com.example.feature_tours.di.ToursSubcomponent
@@ -90,7 +92,7 @@ class ShowToursFragment : Fragment(), ShowToursAdapter.OnTourClickListener,
             }
             State.DONE -> {
                 hideProgress()
-                showTours(response.data ?: listOf()) // TODO: обработка кейса с пустым списком - заглушка, cherry-pick в master
+                showTours(response.data)
             }
             State.ERROR -> {
                 hideProgress()
@@ -128,15 +130,21 @@ class ShowToursFragment : Fragment(), ShowToursAdapter.OnTourClickListener,
         recyclerView.adapter = adapter
     }
 
-    override fun showTours(tours: List<Tour>) {
+    override fun showTours(tours: List<Tour>?) {
         showRefresh()
-        recyclerView.visibility = View.VISIBLE
-        adapter.updateTours(tours)
+        if (tours.isNullOrEmpty()) {
+            emptyDataStub.visible()
+            recyclerView.gone()
+        } else {
+            emptyDataStub.gone()
+            recyclerView.visible()
+            adapter.updateTours(tours)
+        }
     }
 
     override fun showError() {
         hideRefresh()
-        recyclerView.visibility = View.GONE
+        recyclerView.gone()
         loadingView.setState(State.ERROR)
         loadingView.setRefreshButtonClickAction {
             viewModel.loadTours()
@@ -144,7 +152,7 @@ class ShowToursFragment : Fragment(), ShowToursAdapter.OnTourClickListener,
     }
 
     override fun showProgress() {
-        recyclerView.visibility = View.GONE
+        recyclerView.gone()
         loadingView.setState(State.LOADING)
     }
 
