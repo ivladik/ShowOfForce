@@ -3,4 +3,5 @@
     <string name="loading_state_text">Loading...</string>
     <string name="error_text">Произошла ошибка</string>
     <string name="refresh_button_text">Обновить</string>
+    <string name="empty_data_text">Данные отсутствуют.\nПовторите попытку позже.</string>
 </resources>
