@@ -17,7 +17,7 @@ abstract class ViewModelFactoryModule {
     internal abstract fun provideViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory
 
     @Binds
-    // TODO: ужасно! заменить на ShowToursScope - перенести фабрику или только вью модель?
+    // TODO: change scope to ShowToursScope and think about replace it to module show tours?
     @ToursScope
     @IntoMap
     @ViewModelKey(ShowToursViewModel::class)

@@ -23,15 +23,13 @@ import com.example.feature_tours.extension.injectViewModel
 import com.example.feature_tours.presentation.model.Response
 import com.example.feature_tours.presentation.ui.adapter.ShowToursAdapter
 import com.example.feature_tours.presentation.ui.dialog.SelectFlightDialogFragment
-import com.example.feature_tours.presentation.ui.view.ShowToursView
 import com.example.feature_tours.presentation.view_model.ShowToursViewModel
 import kotlinx.android.synthetic.main.fr_show_tours.*
 import timber.log.Timber
 import java.lang.IllegalStateException
 import javax.inject.Inject
 
-class ShowToursFragment : Fragment(), ShowToursAdapter.OnTourClickListener,
-    ShowToursView {
+class ShowToursFragment : Fragment(), ShowToursAdapter.OnTourClickListener {
 
     companion object {
 
@@ -130,7 +128,7 @@ class ShowToursFragment : Fragment(), ShowToursAdapter.OnTourClickListener,
         recyclerView.adapter = adapter
     }
 
-    override fun showTours(tours: List<Tour>?) {
+    private fun showTours(tours: List<Tour>?) {
         showRefresh()
         if (tours.isNullOrEmpty()) {
             emptyDataStub.visible()
@@ -142,7 +140,7 @@ class ShowToursFragment : Fragment(), ShowToursAdapter.OnTourClickListener,
         }
     }
 
-    override fun showError() {
+    private fun showError() {
         hideRefresh()
         recyclerView.gone()
         loadingView.setState(State.ERROR)
@@ -151,12 +149,12 @@ class ShowToursFragment : Fragment(), ShowToursAdapter.OnTourClickListener,
         }
     }
 
-    override fun showProgress() {
+    private fun showProgress() {
         recyclerView.gone()
         loadingView.setState(State.LOADING)
     }
 
-    override fun hideProgress() {
+    private fun hideProgress() {
         loadingView.setState(State.DONE)
     }
 
