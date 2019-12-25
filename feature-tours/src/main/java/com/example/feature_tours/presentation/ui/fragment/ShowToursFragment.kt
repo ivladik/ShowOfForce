@@ -9,6 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.core.extension.gone
+import com.example.core.extension.visible
 import com.example.core.presentation.ui.custom_view.LoadingView
 import com.example.feature_tours.R
 import com.example.feature_tours.di.ToursSubcomponent
@@ -112,13 +114,19 @@ class ShowToursFragment : MvpAppCompatFragment(), ShowToursAdapter.OnTourClickLi
 
     override fun showTours(tours: List<Tour>) {
         showRefresh()
-        recyclerView.visibility = View.VISIBLE
-        adapter.updateTours(tours)
+        if (tours.isEmpty()) {
+            emptyDataStub.visible()
+            recyclerView.gone()
+        } else {
+            emptyDataStub.gone()
+            recyclerView.visible()
+            adapter.updateTours(tours)
+        }
     }
 
     override fun showError() {
         hideRefresh()
-        recyclerView.visibility = View.GONE
+        recyclerView.gone()
         loadingView.setState(LoadingView.State.ERROR)
         loadingView.setRefreshButtonClickAction {
             presenter.loadTours()
@@ -126,7 +134,7 @@ class ShowToursFragment : MvpAppCompatFragment(), ShowToursAdapter.OnTourClickLi
     }
 
     override fun showProgress() {
-        recyclerView.visibility = View.GONE
+        recyclerView.gone()
         loadingView.setState(LoadingView.State.LOADING)
     }
 

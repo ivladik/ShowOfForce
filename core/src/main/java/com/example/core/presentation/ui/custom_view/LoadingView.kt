@@ -27,6 +27,7 @@ class LoadingView @JvmOverloads constructor(
     fun setState(state: State) {
         when (state) {
             State.LOADING -> {
+                this.visible()
                 progress.visible()
                 status.visible()
                 errorContainer.gone()
@@ -35,8 +36,11 @@ class LoadingView @JvmOverloads constructor(
             State.DONE -> {
                 progress.gone()
                 status.gone()
+                errorContainer.gone()
+                this.gone()
             }
             State.ERROR -> {
+                this.visible()
                 errorContainer.visible()
                 refreshButton.setOnClickListener {
                     refreshButtonClickAction?.invoke()
