@@ -25,7 +25,6 @@ class ToursRepository(
             getHotels(),
             getAirlines(),
             getHotelFlightJoinsFromDatabase(),
-            // TODO: error handling
             Function4 { flights, hotels, airlines, hotelFlightJoins ->
                 BasisForToursModelMapper.map(flights, hotels, airlines, hotelFlightJoins)
             }

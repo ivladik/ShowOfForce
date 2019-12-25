@@ -24,7 +24,7 @@ class ShowToursViewModel @Inject constructor(private val interactor: IToursInter
             }
             .subscribe(
                 {
-                    responseLiveData.value = Response.createDoneInstance(it) // TODO: doAfterTerminate не вызывается - теряется гибкость во вьюхах? добавить больше состояний?
+                    responseLiveData.value = Response.createDoneInstance(it)
                 },
                 {
                     responseLiveData.value = Response.createErrorInstance(it)

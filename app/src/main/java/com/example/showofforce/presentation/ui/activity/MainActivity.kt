@@ -7,7 +7,6 @@ import moxy.MvpAppCompatActivity
 
 // TODO: tests, jacoco
 // TODO: add icons
-// TODO: add toast нет подключения к интернету, стаб нет данных
 class MainActivity : MvpAppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

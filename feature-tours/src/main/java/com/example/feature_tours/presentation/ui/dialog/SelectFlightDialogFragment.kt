@@ -8,23 +8,26 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.core.extension.gone
+import com.example.core.extension.visible
+import com.example.core.presentation.model.State
 import com.example.feature_tours.R
 import com.example.feature_tours.di.ToursSubcomponent
 import com.example.feature_tours.di.screen.select_flights.SelectFlightSubcomponent
 import com.example.feature_tours.domain.model.AvailableEntireTourDomainModel
-import com.example.feature_tours.presentation.presenter.SelectFlightDialogPresenter
+import com.example.feature_tours.extension.injectViewModel
+import com.example.feature_tours.presentation.model.Response
 import com.example.feature_tours.presentation.ui.adapter.SelectFlightAdapter
-import com.example.feature_tours.presentation.ui.view.SelectFlightDialogView
+import com.example.feature_tours.presentation.view_model.SelectFlightViewModel
 import kotlinx.android.synthetic.main.dlg_select_flight.*
-import moxy.MvpAppCompatDialogFragment
-import moxy.presenter.InjectPresenter
-import moxy.presenter.ProvidePresenter
 import java.lang.IllegalStateException
 import javax.inject.Inject
 
-class SelectFlightDialogFragment : MvpAppCompatDialogFragment(),
-    SelectFlightDialogView,
+class SelectFlightDialogFragment : DialogFragment(),
     SelectFlightAdapter.OnEntireTourAppliedListener {
 
     // TODO: flights price filter, custom view for li
@@ -55,13 +58,8 @@ class SelectFlightDialogFragment : MvpAppCompatDialogFragment(),
     }
 
     @Inject
-    @InjectPresenter
-    lateinit var presenter: SelectFlightDialogPresenter
-
-    @ProvidePresenter
-    fun providePresenter(): SelectFlightDialogPresenter {
-        return presenter
-    }
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+    private lateinit var viewModel: SelectFlightViewModel
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -95,12 +93,13 @@ class SelectFlightDialogFragment : MvpAppCompatDialogFragment(),
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.dlg_select_flight, container, false)
+        return inflater.inflate(R.layout.dlg_select_flight, container, false) // TODO: empty data stub
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setRecyclerView()
+        viewModel = injectViewModel(viewModelFactory)
         loadAvailableEntireTours()
     }
 
@@ -108,7 +107,23 @@ class SelectFlightDialogFragment : MvpAppCompatDialogFragment(),
         val tourId =
             arguments?.getInt(AVAILABLE_ENTIRE_TOURS_KEY, DEFAULT_VALUE) // TODO: implement error handling
                 ?: throw IllegalStateException("Arguments cannot be null")
-        presenter.loadAvailableEntireTours(tourId)
+        viewModel.loadAvailableEntireTours(tourId)
+        viewModel.responseLiveData.observe(
+            this, Observer {
+                processResponse(it)
+            }
+        )
+    }
+
+    private fun processResponse(response: Response<List<AvailableEntireTourDomainModel>>) {
+        when (response.state) {
+            State.DONE -> {
+                showAvailableEntireTours(response.data)
+            }
+            else -> {
+                // ignore
+            }
+        }
     }
 
     private fun setRecyclerView() {
@@ -116,8 +131,15 @@ class SelectFlightDialogFragment : MvpAppCompatDialogFragment(),
         recyclerView.adapter = adapter
     }
 
-    override fun showAvailableEntireTours(availableEntireTours: List<AvailableEntireTourDomainModel>) {
-        adapter.update(availableEntireTours)
+    private fun showAvailableEntireTours(availableEntireTours: List<AvailableEntireTourDomainModel>?) {
+        if (availableEntireTours.isNullOrEmpty()) {
+            emptyDataStub.visible()
+            recyclerView.gone()
+        } else {
+            emptyDataStub.gone()
+            recyclerView.visible()
+            adapter.update(availableEntireTours)
+        }
     }
 
     override fun onEntireTourApplied(availableEntireTour: AvailableEntireTourDomainModel?) {
