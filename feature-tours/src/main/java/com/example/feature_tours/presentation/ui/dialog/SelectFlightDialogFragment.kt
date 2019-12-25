@@ -137,7 +137,7 @@ class SelectFlightDialogFragment : DialogFragment(),
 
     private fun showAvailableEntireTours(availableEntireTours: List<AvailableEntireTourDomainModel>?) {
         recyclerView.visible()
-        adapter.update(/*availableEntireTours*/null)
+        adapter.update(availableEntireTours)
     }
 
     override fun onEntireTourApplied(result: Response<AvailableEntireTourDomainModel?>) {
