@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.feature_tours.presentation.view_model.SelectFlightViewModel
 import com.example.feature_tours.presentation.view_model.ShowToursViewModel
-import com.example.feature_tours.presentation.view_model.ViewModelFactory
+import com.example.core.presentation.view_model.ViewModelFactory
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap

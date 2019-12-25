@@ -1,13 +1,14 @@
 package com.example.showofforce.presentation.ui.activity
 
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.example.showofforce.R
 import com.example.showofforce.di.FeatureInjector
-import moxy.MvpAppCompatActivity
 
 // TODO: tests, jacoco
 // TODO: add icons
-class MainActivity : MvpAppCompatActivity() {
+// TODO: rotate screen fix
+class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

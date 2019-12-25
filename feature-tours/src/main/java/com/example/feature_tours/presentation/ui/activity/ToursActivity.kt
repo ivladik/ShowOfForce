@@ -1,12 +1,12 @@
 package com.example.feature_tours.presentation.ui.activity
 
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.example.feature_tours.R
 import com.example.feature_tours.di.ToursSubcomponent
 import com.example.feature_tours.presentation.ui.fragment.ShowToursFragment
-import moxy.MvpAppCompatActivity
 
-class ToursActivity : MvpAppCompatActivity() {
+class ToursActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
