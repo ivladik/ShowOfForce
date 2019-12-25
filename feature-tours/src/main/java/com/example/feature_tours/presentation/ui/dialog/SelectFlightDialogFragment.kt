@@ -12,7 +12,6 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.core.extension.gone
 import com.example.core.extension.visible
 import com.example.core.presentation.model.State
 import com.example.feature_tours.R
@@ -52,9 +51,7 @@ class SelectFlightDialogFragment : DialogFragment(),
     }
 
     private val adapter by lazy {
-        SelectFlightAdapter(
-            this
-        )
+        SelectFlightAdapter(this)
     }
 
     @Inject
@@ -93,7 +90,11 @@ class SelectFlightDialogFragment : DialogFragment(),
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.dlg_select_flight, container, false) // TODO: empty data stub
+        return inflater.inflate(
+            R.layout.dlg_select_flight,
+            container,
+            false
+        ) // TODO: empty data stub
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -105,7 +106,10 @@ class SelectFlightDialogFragment : DialogFragment(),
 
     private fun loadAvailableEntireTours() {
         val tourId =
-            arguments?.getInt(AVAILABLE_ENTIRE_TOURS_KEY, DEFAULT_VALUE) // TODO: implement error handling
+            arguments?.getInt(
+                AVAILABLE_ENTIRE_TOURS_KEY,
+                DEFAULT_VALUE
+            ) // TODO: implement error handling
                 ?: throw IllegalStateException("Arguments cannot be null")
         viewModel.loadAvailableEntireTours(tourId)
         viewModel.responseLiveData.observe(
@@ -132,22 +136,23 @@ class SelectFlightDialogFragment : DialogFragment(),
     }
 
     private fun showAvailableEntireTours(availableEntireTours: List<AvailableEntireTourDomainModel>?) {
-        if (availableEntireTours.isNullOrEmpty()) {
-            emptyDataStub.visible()
-            recyclerView.gone()
-        } else {
-            emptyDataStub.gone()
-            recyclerView.visible()
-            adapter.update(availableEntireTours)
-        }
+        recyclerView.visible()
+        adapter.update(/*availableEntireTours*/null)
     }
 
-    override fun onEntireTourApplied(availableEntireTour: AvailableEntireTourDomainModel?) {
-        availableEntireTour?.let {
-            sendResult(availableEntireTour)
-            dismiss()
+    override fun onEntireTourApplied(result: Response<AvailableEntireTourDomainModel?>) {
+        when (result.state) {
+            State.DONE -> {
+                result.data?.let {
+                    sendResult(it)
+                    dismiss()
+                }
+                    ?: showNoTourSelectedToast()
+            }
+            else -> {
+                dismiss() // TODO: create own Result class
+            }
         }
-            ?: showNoTourSelectedToast()
     }
 
     private fun sendResult(availableEntireTour: AvailableEntireTourDomainModel) {

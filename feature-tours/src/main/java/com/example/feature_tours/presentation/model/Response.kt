@@ -21,7 +21,7 @@ class Response<T> private constructor(
         }
 
         @JvmStatic
-        fun <T> createErrorInstance(throwable: Throwable): Response<T> {
+        fun <T> createErrorInstance(throwable: Throwable? =  null): Response<T> {
             return Response(State.ERROR, throwable = throwable)
         }
     }
