@@ -53,13 +53,13 @@ class ShowToursFragment : Fragment(), ShowToursAdapter.OnTourClickListener {
     private lateinit var viewModel: ShowToursViewModel
 
     override fun onAttach(context: Context) {
+        super.onAttach(context)
         ShowToursSubcomponent.create(
             ToursSubcomponent.instance
                 ?.showToursSubcomponent()
         )
             ?.injectShowToursFragment(this)
             ?: throw IllegalStateException("ShowToursSubcomponent cannot be null")
-        super.onAttach(context)
     }
 
     override fun onCreateView(
