@@ -1,28 +1,10 @@
 package com.example.feature_tours.presentation.model
 
-import com.example.core.presentation.model.State
+sealed class Response<out T> {
 
-class Response<T> private constructor(
-    val state: State,
-    val data: T? = null,
-    val throwable: Throwable? = null
-) { // TODO: sealed?
+    class Done<out T>(val data: T) : Response<T>()
 
-    companion object {
+    class Error(val throwable: Throwable? = null) : Response<Nothing>()
 
-        @JvmStatic
-        fun <T> createLoadingInstance(): Response<T> {
-            return Response(State.LOADING)
-        }
-
-        @JvmStatic
-        fun <T> createDoneInstance(data: T): Response<T> {
-            return Response(State.DONE, data)
-        }
-
-        @JvmStatic
-        fun <T> createErrorInstance(throwable: Throwable? =  null): Response<T> {
-            return Response(State.ERROR, throwable = throwable)
-        }
-    }
+    object Loading : Response<Nothing>()
 }

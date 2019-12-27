@@ -18,7 +18,7 @@ class SelectFlightViewModel @Inject constructor(private val interactor: IToursIn
             .compose(RxSchedulersUtil.getIOToMainSingle())
             .subscribe(
                 {
-                    responseLiveData.value = Response.createDoneInstance(it)
+                    responseLiveData.value = Response.Done(it)
                 },
                 {
                     // TODO: error handling

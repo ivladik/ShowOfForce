@@ -20,9 +20,9 @@ class SelectFlightAdapter(onEntireTourClickListener: OnEntireTourAppliedListener
         val selectedTour =
             if (lastSelectedPosition == -1) null else availableEntireTours[lastSelectedPosition]
         val response = if (availableEntireTours.isEmpty()) {
-            Response.createErrorInstance()
+            Response.Error()
         } else {
-            Response.createDoneInstance(selectedTour)
+            Response.Done(selectedTour)
         }
         onEntireTourClickListener.onEntireTourApplied(response)
     }

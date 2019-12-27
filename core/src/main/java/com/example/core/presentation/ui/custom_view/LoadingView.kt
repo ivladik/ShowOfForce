@@ -8,7 +8,6 @@ import android.widget.LinearLayout
 import com.example.core.R
 import com.example.core.extension.gone
 import com.example.core.extension.visible
-import com.example.core.presentation.model.State
 import kotlinx.android.synthetic.main.v_loading.view.*
 
 class LoadingView @JvmOverloads constructor(
@@ -52,5 +51,11 @@ class LoadingView @JvmOverloads constructor(
 
     fun setRefreshButtonClickAction(action: () -> Unit) {
         refreshButtonClickAction = action
+    }
+
+    enum class State {
+        LOADING,
+        DONE,
+        ERROR
     }
 }

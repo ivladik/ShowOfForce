@@ -12,22 +12,18 @@ class ShowToursViewModel @Inject constructor(private val interactor: IToursInter
 
     val responseLiveData = MutableLiveData<Response<List<Tour>>>() // TODO: unregister?
 
-    fun loadTours(fromRefresh: Boolean = false)/*: LiveData<Response>*/ {
-        /*val publisher = interactor.loadTours()
-            .compose(RxSchedulersUtil.getIOToMainSingle())
-            .toFlowable()
-        return LiveDataReactiveStreams.fromPublisher(publisher)*/
+    fun loadTours(fromRefresh: Boolean = false) {
         interactor.loadTours()
             .compose(RxSchedulersUtil.getIOToMainSingle())
             .doOnSubscribe {
-                if (!fromRefresh) responseLiveData.value = Response.createLoadingInstance()
+                if (!fromRefresh) responseLiveData.value = Response.Loading
             }
             .subscribe(
                 {
-                    responseLiveData.value = Response.createDoneInstance(it)
+                    responseLiveData.value = Response.Done(it)
                 },
                 {
-                    responseLiveData.value = Response.createErrorInstance(it)
+                    responseLiveData.value = Response.Error(it)
                 }
             )
             .untilCleared()

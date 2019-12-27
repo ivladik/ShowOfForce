@@ -13,7 +13,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.core.extension.visible
-import com.example.core.presentation.model.State
 import com.example.feature_tours.R
 import com.example.feature_tours.di.ToursSubcomponent
 import com.example.feature_tours.di.screen.select_flights.SelectFlightSubcomponent
@@ -120,12 +119,9 @@ class SelectFlightDialogFragment : DialogFragment(),
     }
 
     private fun processResponse(response: Response<List<AvailableEntireTourDomainModel>>) {
-        when (response.state) {
-            State.DONE -> {
+        when (response) {
+            is Response.Done -> {
                 showAvailableEntireTours(response.data)
-            }
-            else -> {
-                // ignore
             }
         }
     }
@@ -141,8 +137,8 @@ class SelectFlightDialogFragment : DialogFragment(),
     }
 
     override fun onEntireTourApplied(result: Response<AvailableEntireTourDomainModel?>) {
-        when (result.state) {
-            State.DONE -> {
+        when (result) {
+            is Response.Done -> {
                 result.data?.let {
                     sendResult(it)
                     dismiss()
@@ -150,7 +146,7 @@ class SelectFlightDialogFragment : DialogFragment(),
                     ?: showNoTourSelectedToast()
             }
             else -> {
-                dismiss() // TODO: create own Result class
+                dismiss()
             }
         }
     }

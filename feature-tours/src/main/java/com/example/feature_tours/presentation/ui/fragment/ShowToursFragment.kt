@@ -14,7 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.core.extension.gone
 import com.example.core.extension.visible
-import com.example.core.presentation.model.State
+import com.example.core.presentation.ui.custom_view.LoadingView
 import com.example.feature_tours.R
 import com.example.feature_tours.di.ToursSubcomponent
 import com.example.feature_tours.di.screen.show_tours.ShowToursSubcomponent
@@ -84,15 +84,15 @@ class ShowToursFragment : Fragment(), ShowToursAdapter.OnTourClickListener {
     }
 
     private fun processResponse(response: Response<List<Tour>>) {
-        when (response.state) {
-            State.LOADING -> {
+        when (response) {
+            is Response.Loading -> {
                 showProgress()
             }
-            State.DONE -> {
+            is Response.Done -> {
                 hideProgress()
                 showTours(response.data)
             }
-            State.ERROR -> {
+            is Response.Error -> {
                 hideProgress()
                 showError()
             }
@@ -143,7 +143,7 @@ class ShowToursFragment : Fragment(), ShowToursAdapter.OnTourClickListener {
     private fun showError() {
         hideRefresh()
         recyclerView.gone()
-        loadingView.setState(State.ERROR)
+        loadingView.setState(LoadingView.State.ERROR)
         loadingView.setRefreshButtonClickAction {
             viewModel.loadTours()
         }
@@ -151,11 +151,11 @@ class ShowToursFragment : Fragment(), ShowToursAdapter.OnTourClickListener {
 
     private fun showProgress() {
         recyclerView.gone()
-        loadingView.setState(State.LOADING)
+        loadingView.setState(LoadingView.State.LOADING)
     }
 
     private fun hideProgress() {
-        loadingView.setState(State.DONE)
+        loadingView.setState(LoadingView.State.DONE)
     }
 
     override fun onTourClick(tour: Tour) {
@@ -183,7 +183,7 @@ class ShowToursFragment : Fragment(), ShowToursAdapter.OnTourClickListener {
                 }
             }
         } else {
-            Timber.i("Result Code isn't OK")
+            Timber.i("Response Code isn't OK")
         }
     }
 }
