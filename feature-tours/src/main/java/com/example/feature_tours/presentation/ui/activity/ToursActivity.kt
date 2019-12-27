@@ -18,7 +18,9 @@ class ToursActivity : MvpAppCompatActivity() {
     }
 
     override fun onDestroy() {
-        ToursSubcomponent.release()
+        if (isFinishing) {
+            ToursSubcomponent.release()
+        }
         super.onDestroy()
     }
 }
