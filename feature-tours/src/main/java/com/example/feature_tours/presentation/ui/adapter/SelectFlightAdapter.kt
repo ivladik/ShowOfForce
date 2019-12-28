@@ -4,32 +4,37 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.core.extension.inflate
+import com.example.core.domain.model.Response
 import com.example.feature_tours.R
 import com.example.feature_tours.domain.model.AvailableEntireTourDomainModel
 import kotlinx.android.synthetic.main.li_select_flight.view.*
 import kotlinx.android.synthetic.main.li_select_flight_footer.view.*
 
 private const val FOOTER_VIEW_TYPE = 1
+private const val EMPTY_DATA_VIEW_TYPE = 2
 
-class SelectFlightAdapter(onClickListener: OnEntireTourAppliedListener) :
+class SelectFlightAdapter(onEntireTourClickListener: OnEntireTourAppliedListener) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    // TODO: Base RecyclerView
-
-    private val internalClickListener = View.OnClickListener {
+    private val internalOnEntireTourClickListener = View.OnClickListener {
         val selectedTour =
             if (lastSelectedPosition == -1) null else availableEntireTours[lastSelectedPosition]
-        onClickListener.onEntireTourApplied(selectedTour)
+        val response = if (availableEntireTours.isEmpty()) {
+            Response.Error()
+        } else {
+            Response.Done(selectedTour)
+        }
+        onEntireTourClickListener.onEntireTourApplied(response)
     }
 
     private val availableEntireTours = mutableListOf<AvailableEntireTourDomainModel>()
 
     private var lastSelectedPosition = -1
 
-    fun update(updatedEntireTours: List<AvailableEntireTourDomainModel>) {
+    fun update(updatedEntireTours: List<AvailableEntireTourDomainModel>?) {
         availableEntireTours.apply {
             clear()
-            addAll(updatedEntireTours)
+            addAll(updatedEntireTours ?: listOf()) // TODO: resolve by change response model
         }
         notifyDataSetChanged()
     }
@@ -39,6 +44,9 @@ class SelectFlightAdapter(onClickListener: OnEntireTourAppliedListener) :
             FOOTER_VIEW_TYPE -> {
                 FooterViewHolder(parent.inflate(R.layout.li_select_flight_footer))
             }
+            EMPTY_DATA_VIEW_TYPE -> {
+                EmptyDataViewHolder(parent.inflate(R.layout.li_empty_data))
+            }
             else -> {
                 SelectFlightHolder(parent.inflate(R.layout.li_select_flight))
             }
@@ -46,10 +54,16 @@ class SelectFlightAdapter(onClickListener: OnEntireTourAppliedListener) :
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (position == availableEntireTours.size) {
-            FOOTER_VIEW_TYPE
-        } else {
-            super.getItemViewType(position)
+        return when {
+            availableEntireTours.isEmpty() -> {
+                EMPTY_DATA_VIEW_TYPE
+            }
+            position == availableEntireTours.size -> {
+                FOOTER_VIEW_TYPE
+            }
+            else -> {
+                super.getItemViewType(position)
+            }
         }
     }
 
@@ -61,15 +75,16 @@ class SelectFlightAdapter(onClickListener: OnEntireTourAppliedListener) :
         when (holder) {
             is SelectFlightHolder -> holder.bind(availableEntireTours[position], position)
             is FooterViewHolder -> holder.bind()
+            is EmptyDataViewHolder -> holder.bind()
         }
     }
 
     interface OnEntireTourAppliedListener {
 
-        fun onEntireTourApplied(availableEntireTour: AvailableEntireTourDomainModel?)
+        fun onEntireTourApplied(result: Response<AvailableEntireTourDomainModel?>)
     }
 
-    inner class SelectFlightHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    private inner class SelectFlightHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(availableEntireTour: AvailableEntireTourDomainModel, position: Int) {
             with(itemView) {
@@ -88,11 +103,21 @@ class SelectFlightAdapter(onClickListener: OnEntireTourAppliedListener) :
         }
     }
 
-    inner class FooterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    private inner class FooterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bind() {
             with(itemView) {
-                applyButton.setOnClickListener(internalClickListener)
+                applyButton.setOnClickListener(internalOnEntireTourClickListener)
+            }
+        }
+    }
+
+    private inner class EmptyDataViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
+        fun bind() {
+            with(itemView) {
+                applyButton.text = context.getString(R.string.ok_text)
+                applyButton.setOnClickListener(internalOnEntireTourClickListener)
             }
         }
     }

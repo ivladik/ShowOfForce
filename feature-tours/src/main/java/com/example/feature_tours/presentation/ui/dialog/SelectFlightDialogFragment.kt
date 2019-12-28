@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.core.domain.model.Response
 import com.example.feature_tours.R
 import com.example.feature_tours.di.ToursSubcomponent
 import com.example.feature_tours.di.screen.select_flights.SelectFlightSubcomponent
@@ -117,15 +118,22 @@ class SelectFlightDialogFragment : MvpAppCompatDialogFragment(),
     }
 
     override fun showAvailableEntireTours(availableEntireTours: List<AvailableEntireTourDomainModel>) {
-        adapter.update(availableEntireTours)
+        adapter.update(/*availableEntireTours*/null)
     }
 
-    override fun onEntireTourApplied(availableEntireTour: AvailableEntireTourDomainModel?) {
-        availableEntireTour?.let {
-            sendResult(availableEntireTour)
-            dismiss()
+    override fun onEntireTourApplied(result: Response<AvailableEntireTourDomainModel?>) {
+        when (result) {
+            is Response.Done -> {
+                result.data?.let {
+                    sendResult(it)
+                    dismiss()
+                }
+                    ?: showNoTourSelectedToast()
+            }
+            else -> {
+                dismiss()
+            }
         }
-            ?: showNoTourSelectedToast()
     }
 
     private fun sendResult(availableEntireTour: AvailableEntireTourDomainModel) {
