@@ -118,7 +118,7 @@ class SelectFlightDialogFragment : MvpAppCompatDialogFragment(),
     }
 
     override fun showAvailableEntireTours(availableEntireTours: List<AvailableEntireTourDomainModel>) {
-        adapter.update(/*availableEntireTours*/null)
+        adapter.update(availableEntireTours)
     }
 
     override fun onEntireTourApplied(result: Response<AvailableEntireTourDomainModel?>) {
