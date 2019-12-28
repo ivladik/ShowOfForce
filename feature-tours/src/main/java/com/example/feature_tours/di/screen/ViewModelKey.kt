@@ -1,4 +1,4 @@
-package com.example.feature_tours.di
+package com.example.feature_tours.di.screen
 
 import androidx.lifecycle.ViewModel
 import dagger.MapKey

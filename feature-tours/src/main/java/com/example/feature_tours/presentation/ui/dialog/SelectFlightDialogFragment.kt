@@ -93,7 +93,7 @@ class SelectFlightDialogFragment : DialogFragment(),
             R.layout.dlg_select_flight,
             container,
             false
-        ) // TODO: empty data stub
+        )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
