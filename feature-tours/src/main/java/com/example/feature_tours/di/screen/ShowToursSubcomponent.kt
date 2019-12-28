@@ -1,7 +1,5 @@
-package com.example.feature_tours.di.screen.show_tours
+package com.example.feature_tours.di.screen
 
-import com.example.feature_tours.di.screen.ViewModelFactoryModule
-import com.example.feature_tours.di.screen.ToursScreenScope
 import com.example.feature_tours.presentation.ui.fragment.ShowToursFragment
 import dagger.Subcomponent
 

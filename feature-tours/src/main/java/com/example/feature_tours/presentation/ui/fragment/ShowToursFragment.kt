@@ -17,7 +17,7 @@ import com.example.core.extension.visible
 import com.example.core.presentation.ui.custom_view.LoadingView
 import com.example.feature_tours.R
 import com.example.feature_tours.di.ToursSubcomponent
-import com.example.feature_tours.di.screen.show_tours.ShowToursSubcomponent
+import com.example.feature_tours.di.screen.ShowToursSubcomponent
 import com.example.feature_tours.domain.model.Tour
 import com.example.feature_tours.extension.injectViewModel
 import com.example.feature_tours.presentation.model.Response

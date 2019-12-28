@@ -1,7 +1,7 @@
 package com.example.feature_tours.di
 
-import com.example.feature_tours.di.screen.select_flights.SelectFlightSubcomponent
-import com.example.feature_tours.di.screen.show_tours.ShowToursSubcomponent
+import com.example.feature_tours.di.screen.SelectFlightSubcomponent
+import com.example.feature_tours.di.screen.ShowToursSubcomponent
 import com.example.feature_tours.start.IToursStarter
 import dagger.Subcomponent
 

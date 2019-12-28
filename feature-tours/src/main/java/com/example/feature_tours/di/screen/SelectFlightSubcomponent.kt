@@ -1,7 +1,5 @@
-package com.example.feature_tours.di.screen.select_flights
+package com.example.feature_tours.di.screen
 
-import com.example.feature_tours.di.screen.ViewModelFactoryModule
-import com.example.feature_tours.di.screen.ToursScreenScope
 import com.example.feature_tours.presentation.ui.dialog.SelectFlightDialogFragment
 import dagger.Subcomponent
 
