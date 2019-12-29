@@ -4,6 +4,7 @@ import com.example.core.presentation.presenter.BasePresenter
 import com.example.feature_tours.domain.interactor.IToursInteractor
 import com.example.feature_tours.presentation.ui.view.SelectFlightDialogView
 import com.example.core.util.RxSchedulersUtil
+import com.example.feature_tours.di.screen.select_flights.SelectFlightSubcomponent
 import moxy.InjectViewState
 import timber.log.Timber
 
@@ -23,5 +24,11 @@ class SelectFlightDialogPresenter(private val interactor: IToursInteractor) : Ba
                 }
             )
             .untilDestroy()
+    }
+
+    override fun onDestroy() {
+        SelectFlightSubcomponent
+            .release()
+        super.onDestroy()
     }
 }

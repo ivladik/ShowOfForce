@@ -61,23 +61,13 @@ class SelectFlightDialogFragment : MvpAppCompatDialogFragment(),
 
     @ProvidePresenter
     fun providePresenter(): SelectFlightDialogPresenter {
-        return presenter
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
         SelectFlightSubcomponent.create(
             ToursSubcomponent.instance
                 ?.selectFlightSubcomponent()
         )
             ?.injectSelectFlightDialogFragment(this)
             ?: throw IllegalStateException("SelectFlightSubcomponent cannot be null")
-    }
-
-    override fun onDetach() {
-        SelectFlightSubcomponent
-            .release()
-        super.onDetach()
+        return presenter
     }
 
     override fun onStart() {

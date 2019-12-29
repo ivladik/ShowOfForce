@@ -56,17 +56,13 @@ class ShowToursFragment : MvpAppCompatFragment(), ShowToursAdapter.OnTourClickLi
 
     @ProvidePresenter
     fun providePresenter(): ShowToursPresenter {
-        return presenter
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
         ShowToursSubcomponent.create(
             ToursSubcomponent.instance
                 ?.showToursSubcomponent()
         )
             ?.injectShowToursFragment(this)
             ?: throw IllegalStateException("ShowToursSubcomponent cannot be null")
+        return presenter
     }
 
     override fun onCreateView(
@@ -81,12 +77,6 @@ class ShowToursFragment : MvpAppCompatFragment(), ShowToursAdapter.OnTourClickLi
         super.onViewCreated(view, savedInstanceState)
         setRecyclerView()
         hideRefresh()
-    }
-
-    override fun onDetach() {
-        ShowToursSubcomponent
-            .release()
-        super.onDetach()
     }
 
     private fun showRefresh() {

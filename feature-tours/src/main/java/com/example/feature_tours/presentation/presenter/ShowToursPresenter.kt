@@ -4,6 +4,7 @@ import com.example.core.presentation.presenter.BasePresenter
 import com.example.feature_tours.domain.interactor.IToursInteractor
 import com.example.feature_tours.presentation.ui.view.ShowToursView
 import com.example.core.util.RxSchedulersUtil
+import com.example.feature_tours.di.screen.show_tours.ShowToursSubcomponent
 import moxy.InjectViewState
 import timber.log.Timber
 
@@ -35,5 +36,11 @@ class ShowToursPresenter(private val interactor: IToursInteractor) : BasePresent
 
     fun loadToursFromRefresh() {
         loadTours(true)
+    }
+
+    override fun onDestroy() {
+        ShowToursSubcomponent
+            .release()
+        super.onDestroy()
     }
 }
