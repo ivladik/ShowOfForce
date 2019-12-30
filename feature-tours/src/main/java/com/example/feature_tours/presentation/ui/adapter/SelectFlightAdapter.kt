@@ -32,9 +32,10 @@ class SelectFlightAdapter(onEntireTourClickListener: OnEntireTourAppliedListener
     private var lastSelectedPosition = -1
 
     fun update(updatedEntireTours: List<AvailableEntireTourDomainModel>?) {
+        val sortedTours = updatedEntireTours?.sortedBy { it.price } ?: listOf() // TODO: отдельная сущность?
         availableEntireTours.apply {
             clear()
-            addAll(updatedEntireTours ?: listOf()) // TODO: resolve by change response model
+            addAll(sortedTours) // TODO: resolve by change response model
         }
         notifyDataSetChanged()
     }
