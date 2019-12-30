@@ -67,12 +67,6 @@ class SelectFlightDialogFragment : DialogFragment(),
             ?: throw IllegalStateException("SelectFlightSubcomponent cannot be null")
     }
 
-    override fun onDetach() {
-        SelectFlightSubcomponent
-            .release()
-        super.onDetach()
-    }
-
     override fun onStart() {
         super.onStart()
         configWindow()
@@ -110,9 +104,8 @@ class SelectFlightDialogFragment : DialogFragment(),
                 DEFAULT_VALUE
             ) // TODO: implement error handling
                 ?: throw IllegalStateException("Arguments cannot be null")
-        viewModel.loadAvailableEntireTours(tourId)
-        viewModel.responseLiveData.observe(
-            this, Observer {
+        viewModel.getAvailableEntireTours(tourId).observe(
+            viewLifecycleOwner, Observer {
                 processResponse(it)
             }
         )

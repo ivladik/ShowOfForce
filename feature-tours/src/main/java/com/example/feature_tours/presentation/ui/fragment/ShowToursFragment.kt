@@ -75,9 +75,8 @@ class ShowToursFragment : Fragment(), ShowToursAdapter.OnTourClickListener {
         setRecyclerView()
         hideRefresh()
         viewModel = injectViewModel(viewModelFactory)
-        viewModel.loadTours()
-        viewModel.responseLiveData.observe(
-            this, Observer {
+        viewModel.getTours().observe(
+            viewLifecycleOwner, Observer {
                 processResponse(it)
             }
         )
@@ -99,17 +98,11 @@ class ShowToursFragment : Fragment(), ShowToursAdapter.OnTourClickListener {
         }
     }
 
-    override fun onDetach() {
-        ShowToursSubcomponent
-            .release()
-        super.onDetach()
-    }
-
     private fun showRefresh() {
         swipeRefreshLayout.apply {
             isRefreshing = false
             setOnRefreshListener {
-                viewModel.loadToursFromRefresh()
+                viewModel.loadTours(true)
             }
             isEnabled = true
         }

@@ -14,6 +14,7 @@ class ToursActivity : AppCompatActivity() {
 
         supportFragmentManager.beginTransaction()
             .replace(R.id.container, ShowToursFragment.newInstance(), ShowToursFragment.TAG)
+            .addToBackStack(null)
             .commit()
     }
 

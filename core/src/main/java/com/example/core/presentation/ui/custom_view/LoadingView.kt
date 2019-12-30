@@ -34,6 +34,7 @@ class LoadingView @JvmOverloads constructor(
                 refreshButton.setOnClickListener(null)
             }
             State.DONE -> {
+                refreshButton.setOnClickListener(null)
                 progress.gone()
                 status.gone()
                 errorContainer.gone()
@@ -49,7 +50,7 @@ class LoadingView @JvmOverloads constructor(
         }
     }
 
-    fun setRefreshButtonClickAction(action: () -> Unit) {
+    fun setRefreshButtonClickAction(action: (() -> Unit)?) {
         refreshButtonClickAction = action
     }
 
