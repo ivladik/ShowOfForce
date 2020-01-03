@@ -1,23 +1,24 @@
 package com.example.feature_tours.presentation.ui.adapter
 
-import android.view.View
+import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.databinding.BindingAdapter
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.example.core.extension.inflate
 import com.example.feature_tours.R
+import com.example.feature_tours.databinding.LiTourBinding
 import com.example.feature_tours.domain.model.Tour
 import com.example.feature_tours.util.ToursDiffUtilCallback
-import kotlinx.android.synthetic.main.li_tour.view.*
 
-class ShowToursAdapter(onClickListener: OnTourClickListener) :
-    RecyclerView.Adapter<ShowToursAdapter.ToursHolder>() {
+class ShowToursAdapter(private val onClickListener: OnTourClickListener) :
+    RecyclerView.Adapter<ShowToursAdapter.ToursHolder>(), OnTourClickListener {
 
     private val tours = mutableListOf<Tour>()
 
-    private val internalClickListener = View.OnClickListener {
-        val position = it.tag as Int
-        onClickListener.onTourClick(tours[position])
+    override fun onTourClick(tour: Tour) {
+        onClickListener.onTourClick(tour)
     }
 
     fun updateTours(updatedTours: List<Tour>) {
@@ -33,40 +34,46 @@ class ShowToursAdapter(onClickListener: OnTourClickListener) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ToursHolder {
-        return ToursHolder(parent.inflate(R.layout.li_tour))
+        val inflater = LayoutInflater.from(parent.context)
+        val binding: LiTourBinding = DataBindingUtil.inflate(inflater, R.layout.li_tour, parent, false)
+        return ToursHolder(binding)
     }
 
     override fun getItemCount(): Int = tours.size
 
     override fun onBindViewHolder(holder: ToursHolder, position: Int) {
-        holder.bind(tours[position], position)
+        val tour = tours[position]
+        holder.binding.tour = tour
+        holder.binding.onTourClickListener = this
+
     }
 
-    interface OnTourClickListener {
+    inner class ToursHolder(val binding: LiTourBinding) : RecyclerView.ViewHolder(binding.root)
 
-        fun onTourClick(tour: Tour)
-    }
+    companion object {
 
-    inner class ToursHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        @BindingAdapter("app:possible_flights")
+        @JvmStatic
+        fun setPossibleFlights(textView: TextView, quantity: Int) {
+            textView.text = textView.context
+                .resources
+                .getQuantityString(
+                    R.plurals.possibleFlights,
+                    quantity,
+                    quantity
+                )
+        }
 
-        fun bind(tour: Tour, position: Int) {
-            with(itemView) {
-                hotelName.text = tour.hotelName
-                possibleFlights.text = context.resources
-                    .getQuantityString(
-                        R.plurals.possibleFlights,
-                        tour.availableFlightsForHotel,
-                        tour.availableFlightsForHotel
-                    )
-                minimalPrice.text = context.resources
-                    .getQuantityString(
-                        R.plurals.minimalPrice,
-                        tour.availableFlightsForHotel,
-                        tour.minimalPriceForEntireTour
-                    )
-                tag = position
-                container.setOnClickListener(internalClickListener)
-            }
+        @BindingAdapter("app:minimal_price")
+        @JvmStatic
+        fun setMinimalPrice(textView: TextView, quantity: Int) {
+            textView.text = textView.context
+                .resources
+                .getQuantityString(
+                    R.plurals.minimalPrice,
+                    quantity,
+                    quantity
+                )
         }
     }
 }

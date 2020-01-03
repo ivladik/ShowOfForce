@@ -1,49 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    android:foreground="?attr/selectableItemBackground"
-    app:cardCornerRadius="4dp"
-    app:cardElevation="4dp">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <data>
+
+        <variable
+            name="tour"
+            type="com.example.feature_tours.domain.model.Tour" />
+        
+        <variable
+            name="onTourClickListener"
+            type="com.example.feature_tours.presentation.ui.adapter.OnTourClickListener" />
+
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp">
+        android:layout_margin="8dp"
+        android:foreground="?attr/selectableItemBackground"
+        app:cardCornerRadius="4dp"
+        android:onClick="@{(view) -> onTourClickListener.onTourClick(tour)}"
+        app:cardElevation="4dp">
 
-        <TextView
-            android:id="@+id/hotelName"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/TitleText"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Отель &quot;Пирамида&quot;"/>
+            android:padding="16dp">
 
-        <TextView
-            android:id="@+id/possibleFlights"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/SubtitleText"
-            android:layout_marginTop="16dp"
-            app:layout_constraintLeft_toLeftOf="@id/hotelName"
-            app:layout_constraintTop_toBottomOf="@id/hotelName"
-            tools:text="3 варианта перелета"/>
+            <TextView
+                android:id="@+id/hotelName"
+                style="@style/TitleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{tour.hotelName}"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Отель &quot;Пирамида&quot;" />
 
-        <TextView
-            android:id="@+id/minimalPrice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/LargeGreenText"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            tools:text="от 10000 р"/>
+            <TextView
+                android:id="@+id/possibleFlights"
+                style="@style/SubtitleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:layout_constraintLeft_toLeftOf="@id/hotelName"
+                app:layout_constraintTop_toBottomOf="@id/hotelName"
+                app:possible_flights="@{tour.availableFlightsForHotel}"
+                tools:text="3 варианта перелета" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/minimalPrice"
+                style="@style/LargeGreenText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:minimal_price="@{tour.minimalPriceForEntireTour}"
+                tools:text="от 10000 р" />
 
-</androidx.cardview.widget.CardView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</layout>

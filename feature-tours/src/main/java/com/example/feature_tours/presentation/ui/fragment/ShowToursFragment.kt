@@ -21,6 +21,7 @@ import com.example.feature_tours.di.screen.ShowToursSubcomponent
 import com.example.feature_tours.domain.model.Tour
 import com.example.feature_tours.extension.injectViewModel
 import com.example.feature_tours.presentation.model.Response
+import com.example.feature_tours.presentation.ui.adapter.OnTourClickListener
 import com.example.feature_tours.presentation.ui.adapter.ShowToursAdapter
 import com.example.feature_tours.presentation.ui.dialog.SelectFlightDialogFragment
 import com.example.feature_tours.presentation.view_model.ShowToursViewModel
@@ -29,7 +30,7 @@ import timber.log.Timber
 import java.lang.IllegalStateException
 import javax.inject.Inject
 
-class ShowToursFragment : Fragment(), ShowToursAdapter.OnTourClickListener {
+class ShowToursFragment : Fragment(), OnTourClickListener {
 
     companion object {
 
