@@ -1,15 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <Button
-        android:id="@+id/applyButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:background="?android:attr/selectableItemBackground"
-        android:text="@string/apply_button_text"
-        android:textColor="@color/colorPrimary" />
+    <data>
 
-</FrameLayout>
+        <variable
+            name="onInternalClickListener"
+            type="com.example.core.presentation.ui.adapter.OnInternalClickListener" />
+
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/applyButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:background="?android:attr/selectableItemBackground"
+            android:onClick="@{() -> onInternalClickListener.onInternalClick()}"
+            android:text="@string/apply_button_text"
+            android:textColor="@color/colorPrimary" />
+
+    </FrameLayout>
+
+</layout>

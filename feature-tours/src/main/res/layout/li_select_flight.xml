@@ -1,29 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/selectContainer"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="?attr/selectableItemBackground"
-    android:orientation="horizontal">
+<layout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <RadioButton
-        android:id="@+id/airlineButton"
+    <data>
 
-        android:layout_width="0dp"
+        <variable
+            name="availableEntireTour"
+            type="com.example.feature_tours.domain.model.AvailableEntireTourDomainModel"/>
+
+        <variable
+            name="onEntireTourSelectedListener"
+            type="com.example.feature_tours.presentation.ui.adapter.OnEntireTourSelectedListener" />
+
+        <variable
+            name="isChecked"
+            type="boolean" />
+
+    </data>
+
+    <LinearLayout
+        android:id="@+id/selectContainer"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="start|center_vertical"
-        android:clickable="false"
-        android:background="@null"
-        tools:text="Aeroflot" />
+        android:background="?attr/selectableItemBackground"
+        android:orientation="horizontal"
+        android:onClick="@{() -> onEntireTourSelectedListener.onEntireTourSelected()}">
 
-    <TextView
-        android:id="@+id/entireTourPrice"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:gravity="end|center_vertical"
-        tools:text="12000 р" />
+        <RadioButton
+            android:id="@+id/airlineButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="start|center_vertical"
+            android:clickable="false"
+            android:background="@null"
+            android:checked="@{isChecked}"
+            android:text="@{availableEntireTour.airlineName}"
+            tools:text="Aeroflot" />
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/entireTourPrice"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="end|center_vertical"
+            app:entire_tour_price="@{availableEntireTour.price}"
+            tools:text="12000 р" />
+
+    </LinearLayout>
+
+</layout>

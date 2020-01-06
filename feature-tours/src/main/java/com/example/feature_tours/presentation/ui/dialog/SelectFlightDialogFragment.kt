@@ -19,6 +19,7 @@ import com.example.feature_tours.di.screen.SelectFlightSubcomponent
 import com.example.feature_tours.domain.model.AvailableEntireTourDomainModel
 import com.example.feature_tours.extension.injectViewModel
 import com.example.feature_tours.presentation.model.Response
+import com.example.feature_tours.presentation.ui.adapter.OnEntireTourAppliedListener
 import com.example.feature_tours.presentation.ui.adapter.SelectFlightAdapter
 import com.example.feature_tours.presentation.view_model.SelectFlightViewModel
 import kotlinx.android.synthetic.main.dlg_select_flight.*
@@ -26,7 +27,7 @@ import java.lang.IllegalStateException
 import javax.inject.Inject
 
 class SelectFlightDialogFragment : DialogFragment(),
-    SelectFlightAdapter.OnEntireTourAppliedListener {
+    OnEntireTourAppliedListener {
 
     // TODO: flights price filter, custom view for li
 
