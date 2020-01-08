@@ -8,11 +8,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.core.presentation.ui.adapter.OnInternalClickListener
 import com.example.feature_tours.R
+import com.example.feature_tours.databinding.LiEmptyDataBinding
 import com.example.feature_tours.databinding.LiSelectFlightBinding
 import com.example.feature_tours.databinding.LiSelectFlightFooterBinding
 import com.example.feature_tours.domain.model.AvailableEntireTourDomainModel
 import com.example.feature_tours.presentation.model.Response
-import kotlinx.android.synthetic.main.li_select_flight.view.*
+import kotlinx.android.synthetic.main.li_select_flight_footer.view.*
 
 private const val FOOTER_VIEW_TYPE = 1
 private const val EMPTY_DATA_VIEW_TYPE = 2
@@ -46,9 +47,15 @@ class SelectFlightAdapter(private val onEntireTourClickListener: OnEntireTourApp
                 )
                 FooterViewHolder(binding)
             }
-            /*EMPTY_DATA_VIEW_TYPE -> {
-                EmptyDataViewHolder(parent.inflate(R.layout.li_empty_data))
-            }*/
+            EMPTY_DATA_VIEW_TYPE -> {
+                val binding: LiEmptyDataBinding = DataBindingUtil.inflate(
+                    inflater,
+                    R.layout.li_empty_data,
+                    parent,
+                    false
+                )
+                EmptyDataViewHolder(binding)
+            }
             else -> {
                 val binding: LiSelectFlightBinding =
                     DataBindingUtil.inflate(inflater, R.layout.li_select_flight, parent, false)
@@ -59,9 +66,9 @@ class SelectFlightAdapter(private val onEntireTourClickListener: OnEntireTourApp
 
     override fun getItemViewType(position: Int): Int {
         return when {
-            /*availableEntireTours.isEmpty() -> {
+            availableEntireTours.isEmpty() -> {
                 EMPTY_DATA_VIEW_TYPE
-            }*/
+            }
             position == availableEntireTours.size -> {
                 FOOTER_VIEW_TYPE
             }
@@ -81,7 +88,7 @@ class SelectFlightAdapter(private val onEntireTourClickListener: OnEntireTourApp
                 holder.bind(position)
             }
             is FooterViewHolder -> holder.bind()
-//            is EmptyDataViewHolder -> holder.bind()
+            is EmptyDataViewHolder -> holder.bind()
         }
     }
 
@@ -89,11 +96,8 @@ class SelectFlightAdapter(private val onEntireTourClickListener: OnEntireTourApp
         RecyclerView.ViewHolder(binding.root), OnEntireTourSelectedListener {
 
         override fun onEntireTourSelected() {
-            with(itemView) {
-                airlineButton.isChecked = true // TODO: правильно или нет?
-                lastSelectedPosition = adapterPosition
-                notifyDataSetChanged()
-            }
+            lastSelectedPosition = adapterPosition
+            notifyDataSetChanged()
         }
 
         fun bind(position: Int) {
@@ -122,15 +126,19 @@ class SelectFlightAdapter(private val onEntireTourClickListener: OnEntireTourApp
         }
     }
 
-    /*private inner class EmptyDataViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) { // TODO: uncomment later
+    private inner class EmptyDataViewHolder(val binding: LiEmptyDataBinding) :
+        RecyclerView.ViewHolder(binding.root), OnInternalClickListener {
 
         fun bind() {
-            with(itemView) {
-                applyButton.text = context.getString(R.string.ok_text)
-                applyButton.setOnClickListener(internalOnEntireTourClickListener)
-            }
+                itemView.applyButton.text = itemView.context.getString(R.string.ok_text) // TODO: create variable
+                binding.onInternalClickListener = this
         }
-    }*/
+
+        override fun onInternalClick() {
+            val response = Response.Error()
+            onEntireTourClickListener.onEntireTourApplied(response)
+        }
+    }
 
     companion object {
 
