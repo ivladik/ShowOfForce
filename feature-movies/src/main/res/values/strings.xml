@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">feature-movies</string>
+    <string name="stub_text">Скоро здесь будут фильмы...</string>
 </resources>
