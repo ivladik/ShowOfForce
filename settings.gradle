@@ -1,2 +1,2 @@
-include ':app', ':feature-tours', ':core'
+include ':app', ':feature-tours', ':core', ':feature-movies'
 rootProject.name='ShowOfForce'
