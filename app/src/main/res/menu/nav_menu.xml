@@ -6,4 +6,8 @@
         android:icon="@drawable/ic_launcher_background"
         android:title="@string/title_tours"/>
 
+    <item
+        android:id="@+id/itemMovies"
+        android:icon="@drawable/ic_launcher_background"
+        android:title="@string/title_movies"/>
 </menu>

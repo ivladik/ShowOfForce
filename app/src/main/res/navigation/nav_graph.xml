@@ -23,4 +23,9 @@
         android:id="@+id/itemSelectFlight"
         android:name="com.example.feature_tours.presentation.ui.dialog.SelectFlightDialogFragment"
         android:label="@string/title_select_flight" />
+
+    <fragment
+        android:id="@+id/itemMovies"
+        android:name="com.example.feature_movies.presentation.ui.fragment.MoviesStubFragment"
+        android:label="@string/title_movies" />
 </navigation>
