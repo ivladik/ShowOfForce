@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/itemTours">
+
+    <fragment
+        android:id="@+id/itemTours"
+        android:name="com.example.feature_tours.presentation.ui.fragment.ShowToursFragment"
+        android:label="@string/title_tours">
+
+        <action
+            android:id="@+id/action_itemTours_to_selectFlightDialogFragment"
+            app:destination="@id/itemSelectFlight"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@+id/itemTours" />
+    </fragment>
+
+    <dialog
+        android:id="@+id/itemSelectFlight"
+        android:name="com.example.feature_tours.presentation.ui.dialog.SelectFlightDialogFragment"
+        android:label="@string/title_select_flight" />
+</navigation>
