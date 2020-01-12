@@ -73,4 +73,5 @@ dependencies {
 
     implementation project(':core')
     implementation project(':feature-tours')
+    implementation project(':feature-movies')
 }
