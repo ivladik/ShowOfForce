@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
         val navigationController = findNavController(R.id.navigationController)
         setupActionBarWithNavController(navigationController)
         navigationView.setupWithNavController(navigationController)
-        // TODO: apply action to details, delete toolbar from another fragments
+        // TODO: apply animation action to details, delete toolbar arrow from another fragments, notification show above bottom bar
     }
 
     override fun onDestroy() {
