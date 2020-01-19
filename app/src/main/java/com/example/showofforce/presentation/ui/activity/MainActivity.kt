@@ -3,6 +3,7 @@ package com.example.showofforce.presentation.ui.activity
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.feature_tours.di.ToursSubcomponent
@@ -24,9 +25,17 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupNavigation() {
         val navigationController = findNavController(R.id.navigationController)
-        setupActionBarWithNavController(navigationController)
+        setupActionBarWithNavController(
+            navigationController,
+            AppBarConfiguration.Builder(
+                setOf(
+                    R.id.itemTours,
+                    R.id.itemMovies
+                )
+            )
+                .build()
+        )
         navigationView.setupWithNavController(navigationController)
-        // TODO: apply animation action to details, delete toolbar arrow from another fragments, notification show above bottom bar
     }
 
     override fun onDestroy() {
