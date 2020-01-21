@@ -22,54 +22,52 @@ android {
 }
 
 dependencies {
-    // TODO: move versions to separate file, delete unused
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.50'
+    implementation libs.jdk
 
     // Support Libraries
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.core:core-ktx:1.1.0'
-    implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'com.google.android.material:material:1.0.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    implementation 'androidx.coordinatorlayout:coordinatorlayout:1.1.0'
-    implementation 'androidx.recyclerview:recyclerview:1.1.0'
-    implementation 'androidx.cardview:cardview:1.0.0'
-    implementation "androidx.navigation:navigation-fragment-ktx:2.1.0"
-    implementation "androidx.navigation:navigation-ui-ktx:2.1.0"
+    implementation libs.appCompat
+    implementation libs.coreKtx
+    implementation libs.cardView
+    implementation libs.material
+    implementation libs.constraintLayout
+    implementation libs.coordinatorLayout
+    implementation libs.recyclerView
+    implementation libs.navigationFragmentKtx
+    implementation libs.navigationUiKtx
 
     // RxJava 2
-    implementation 'io.reactivex.rxjava2:rxjava:2.2.11'
-    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
-    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.6.1'
+    implementation libs.rxJava
+    implementation libs.rxAndroid
+    implementation libs.rxAdapter
 
     // Dagger 2
-    implementation 'com.google.dagger:dagger:2.24'
-    kapt 'com.google.dagger:dagger-compiler:2.24'
+    implementation libs.dagger
+    kapt libs.daggerCompiler
 
     // Room
-    implementation 'androidx.room:room-runtime:2.2.3'
-    implementation 'androidx.room:room-common:2.2.3'
-    implementation 'androidx.room:room-rxjava2:2.2.3'
-    kapt 'androidx.room:room-compiler:2.2.3'
+    implementation libs.roomRuntime
+    implementation libs.roomCommon
+    implementation libs.roomRxJava
+    kapt libs.roomCompiler
 
     // Network
-    implementation 'com.squareup.retrofit2:retrofit:2.6.1'
-    implementation 'com.squareup.retrofit2:converter-gson:2.6.1'
-    implementation 'com.squareup.okhttp3:okhttp:4.0.1'
-    implementation 'com.squareup.okhttp3:logging-interceptor:4.0.1'
-    implementation 'com.facebook.stetho:stetho:1.5.1'
-    implementation 'com.facebook.stetho:stetho-okhttp3:1.5.1'
+    implementation libs.retrofit
+    implementation libs.converterGson
+    implementation libs.okhttp
+    implementation libs.loggingInterceptor
+    implementation libs.stetho
+    implementation libs.stethoOkhttp
 
     // Logging
-    implementation 'com.jakewharton.timber:timber:4.7.1'
+    implementation libs.timber
 
     // Testing
-    testImplementation 'org.mockito:mockito-core:3.0.0'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.2.0'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    testImplementation libs.mockito
+    testImplementation libs.junit
+    androidTestImplementation libs.testRunner
+    androidTestImplementation libs.junitExt
+    androidTestImplementation libs.espresso
 
     implementation project(':core')
     implementation project(':feature-tours')
