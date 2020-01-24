@@ -1,6 +1,3 @@
 <resources>
     <string name="app_name">ShowOfForce</string>
-    <string name="title_tours">Туры</string>
-    <string name="title_select_flight">Выбрать перелет</string>
-    <string name="title_movies">Фильмы</string>
 </resources>

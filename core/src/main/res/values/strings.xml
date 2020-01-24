@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">core</string>
+    <string name="title_tours">Туры</string>
+    <string name="title_select_flight">Выбрать перелет</string>
+    <string name="title_movies">Фильмы</string>
     <string name="loading_state_text">Loading...</string>
     <string name="error_text">Произошла ошибка</string>
     <string name="refresh_button_text">Обновить</string>

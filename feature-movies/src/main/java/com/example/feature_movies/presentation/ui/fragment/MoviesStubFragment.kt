@@ -1,13 +1,17 @@
 package com.example.feature_movies.presentation.ui.fragment
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import com.example.core.presentation.ui.fragment.BaseFragment
 import com.example.feature_movies.R
+import com.example.feature_movies.di.MoviesSubcomponent
+import com.example.feature_movies.presentation.view_model.MoviesStubViewModel
+import java.lang.IllegalStateException
 
-class MoviesStubFragment : Fragment() {
+class MoviesStubFragment : BaseFragment<MoviesStubViewModel>() {
 
     companion object {
 
@@ -16,6 +20,15 @@ class MoviesStubFragment : Fragment() {
         fun newInstance(): MoviesStubFragment {
             return MoviesStubFragment()
         }
+    }
+
+    override fun getViewModelClass() = MoviesStubViewModel::class.java
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        MoviesSubcomponent.instance
+            ?.injectMoviesStubFragment(this)
+            ?: throw IllegalStateException("ShowToursSubcomponent cannot be null")
     }
 
     override fun onCreateView(

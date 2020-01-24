@@ -4,7 +4,7 @@ import com.example.feature_tours.presentation.ui.fragment.ShowToursFragment
 import dagger.Subcomponent
 
 @ToursScreenScope
-@Subcomponent(modules = [ShowToursModule::class, ViewModelFactoryModule::class])
+@Subcomponent(modules = [ShowToursModule::class, ToursScreenViewModelFactoryModule::class])
 abstract class ShowToursSubcomponent {
 
     abstract fun injectShowToursFragment(showToursFragment: ShowToursFragment)

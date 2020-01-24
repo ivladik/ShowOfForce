@@ -4,6 +4,7 @@ import android.content.Context
 import com.example.core.di.ContextModule
 import com.example.core.di.NetworkModule
 import com.example.core.di.PerApp
+import com.example.feature_movies.di.MoviesSubcomponent
 import com.example.feature_tours.di.ToursSubcomponent
 import dagger.Component
 
@@ -12,6 +13,8 @@ import dagger.Component
 abstract class AppComponent {
 
     abstract fun toursSubcomponent(): ToursSubcomponent
+
+    abstract fun moviesSubcomponent(): MoviesSubcomponent
 
     companion object {
 

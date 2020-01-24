@@ -17,7 +17,7 @@ import com.example.feature_tours.R
 import com.example.feature_tours.di.ToursSubcomponent
 import com.example.feature_tours.di.screen.SelectFlightSubcomponent
 import com.example.feature_tours.domain.model.AvailableEntireTourDomainModel
-import com.example.feature_tours.extension.injectViewModel
+import com.example.core.extension.injectViewModel
 import com.example.feature_tours.presentation.model.Response
 import com.example.feature_tours.presentation.ui.adapter.SelectFlightAdapter
 import com.example.feature_tours.presentation.view_model.SelectFlightViewModel

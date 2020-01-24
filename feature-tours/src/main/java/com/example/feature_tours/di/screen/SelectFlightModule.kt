@@ -1,8 +1,7 @@
 package com.example.feature_tours.di.screen
 
 import androidx.lifecycle.ViewModel
-import com.example.feature_tours.di.screen.ViewModelKey
-import com.example.feature_tours.di.screen.ToursScreenScope
+import com.example.core.di.ViewModelKey
 import com.example.feature_tours.presentation.view_model.SelectFlightViewModel
 import dagger.Binds
 import dagger.Module

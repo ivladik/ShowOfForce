@@ -1,4 +1,4 @@
-package com.example.feature_tours.extension
+package com.example.core.extension
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity

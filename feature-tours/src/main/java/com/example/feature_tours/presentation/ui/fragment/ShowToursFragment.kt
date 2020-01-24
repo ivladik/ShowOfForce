@@ -8,18 +8,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.core.extension.gone
 import com.example.core.extension.visible
 import com.example.core.presentation.ui.custom_view.LoadingView
+import com.example.core.presentation.ui.fragment.BaseFragment
 import com.example.feature_tours.R
 import com.example.feature_tours.di.ToursSubcomponent
 import com.example.feature_tours.di.screen.ShowToursSubcomponent
 import com.example.feature_tours.domain.model.Tour
-import com.example.feature_tours.extension.injectViewModel
+import com.example.core.extension.injectViewModel
 import com.example.feature_tours.presentation.model.Response
 import com.example.feature_tours.presentation.ui.adapter.ShowToursAdapter
 import com.example.feature_tours.presentation.ui.dialog.SelectFlightDialogFragment
@@ -27,9 +26,8 @@ import com.example.feature_tours.presentation.view_model.ShowToursViewModel
 import kotlinx.android.synthetic.main.fr_show_tours.*
 import timber.log.Timber
 import java.lang.IllegalStateException
-import javax.inject.Inject
 
-class ShowToursFragment : Fragment(), ShowToursAdapter.OnTourClickListener {
+class ShowToursFragment : BaseFragment<ShowToursViewModel>(), ShowToursAdapter.OnTourClickListener {
 
     companion object {
 
@@ -47,10 +45,6 @@ class ShowToursFragment : Fragment(), ShowToursAdapter.OnTourClickListener {
             this
         )
     }
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-    private lateinit var viewModel: ShowToursViewModel
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -74,13 +68,14 @@ class ShowToursFragment : Fragment(), ShowToursAdapter.OnTourClickListener {
         super.onViewCreated(view, savedInstanceState)
         setRecyclerView()
         hideRefresh()
-        viewModel = injectViewModel(viewModelFactory)
         viewModel.getTours().observe(
             viewLifecycleOwner, Observer {
                 processResponse(it)
             }
         )
     }
+
+    override fun getViewModelClass() = ShowToursViewModel::class.java
 
     private fun processResponse(response: Response<List<Tour>>) {
         when (response) {
@@ -152,12 +147,13 @@ class ShowToursFragment : Fragment(), ShowToursAdapter.OnTourClickListener {
     }
 
     override fun onTourClick(tour: Tour) {
-        val fragment = SelectFlightDialogFragment.newInstance(tour.id)
+        /*val fragment = SelectFlightDialogFragment.newInstance(tour.id)
         fragment.setTargetFragment(
             this,
             SHOW_TOURS_REQUEST_CODE
         )
-        fragment.show(requireFragmentManager(), SelectFlightDialogFragment.TAG)
+        fragment.show(requireFragmentManager(), SelectFlightDialogFragment.TAG)*/
+        viewModel.navigate(ShowToursFragmentDirections.actionItemToursToItemMovies())
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

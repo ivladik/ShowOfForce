@@ -6,13 +6,13 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.example.feature_movies.di.MoviesSubcomponent
 import com.example.feature_tours.di.ToursSubcomponent
 import com.example.showofforce.R
 import com.example.showofforce.di.FeatureInjector
 import kotlinx.android.synthetic.main.ac_main.*
 
-// TODO: tests, jacoco
-// TODO: add icons
+// TODO: ЛИБО ВСЮ НАВИГАЦИЮ ПЕРЕНЕСТИ В МОДУЛЬ, ЛИБО ВЕРНУТЬ ВСЕ В АПП. ОТДЕЛЬНЫЙ МОДУЛЬ НАВИГАЦИЯ СОЗДАТЬ?
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity() {
         setupNavigation()
 //        navigateToToursFragment()
         FeatureInjector.createToursSubcomponent()
+        FeatureInjector.createMoviesSubcomponent()
     }
 
     private fun setupNavigation() {
@@ -40,12 +41,13 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         if (isFinishing) {
+            MoviesSubcomponent.release()
             ToursSubcomponent.release()
         }
         super.onDestroy()
     }
 
-    // TODO: удалить starter, activity
+    // TODO: удалить starter, activity или наоборот запускать именно starter'ы
     private fun navigateToToursFragment() {
         FeatureInjector.createToursSubcomponent()
             ?.starter()

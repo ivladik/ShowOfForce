@@ -2,6 +2,8 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: "androidx.navigation.safeargs.kotlin"
+
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
@@ -38,6 +40,8 @@ dependencies {
     implementation libs.constraintLayout
     implementation libs.coordinatorLayout
     implementation libs.recyclerView
+    implementation libs.navigationFragmentKtx
+    implementation libs.navigationUiKtx
 
     // Architecture Components
     implementation libs.lifecycleExtensions

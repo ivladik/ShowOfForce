@@ -4,7 +4,7 @@ import com.example.feature_tours.presentation.ui.dialog.SelectFlightDialogFragme
 import dagger.Subcomponent
 
 @ToursScreenScope
-@Subcomponent(modules = [SelectFlightModule::class, ViewModelFactoryModule::class])
+@Subcomponent(modules = [SelectFlightModule::class, ToursScreenViewModelFactoryModule::class])
 abstract class SelectFlightSubcomponent {
 
     abstract fun injectSelectFlightDialogFragment(selectFlightDialogFragment: SelectFlightDialogFragment)
